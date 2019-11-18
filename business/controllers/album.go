@@ -40,3 +40,21 @@ func (c *AlbumController) Get() ([]models.Album, error) {
 	}
 	return c.Sev.GetAlbums(page, perPage, filter)
 }
+
+func (c *AlbumController) Post() (*models.Album, error) {
+	requestBody := &models.Album{}
+	if err := c.Runtime.Ctx().ReadJSON(requestBody); err != nil {
+		return nil, err
+	}
+	return c.Sev.Create(requestBody)
+}
+
+// // PutBy handles the PUT: /{id:int} route.
+// func (c *AlbumController) PutBy(id int) (models.Album, error) {
+// 	return c.Sev.GetAlbum(id)
+// }
+
+// // DeleteBy handles the PUT: /{id:int} route.
+// func (c *AlbumController) DeleteBy(id int) (models.Album, error) {
+// 	return c.Sev.GetAlbum(id)
+// }

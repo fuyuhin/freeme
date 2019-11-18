@@ -1,0 +1,14 @@
+http://localhost:8000/albums
+
+###
+GET http://localhost:8000/albums?page=2&per_page=3&artist_id=22
+###
+GET http://localhost:8000/albums/133 HTTP/1.1
+###
+POST http://localhost:8000/albums HTTP/1.1
+# header name: header value
+
+{
+    "title": ""
+    # "artist_id": 0
+}

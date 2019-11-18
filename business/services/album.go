@@ -35,3 +35,7 @@ func (s *AlbumService) GetAlbum(id int) (models.Album, error) {
 func (s *AlbumService) GetAlbums(page, perPage int, filter *models.Album) ([]models.Album, error) {
 	return s.DefRepo.GetAlbums(page, perPage, filter)
 }
+
+func (s *AlbumService) Create(a *models.Album) (*models.Album, error) {
+	return s.DefRepo.Create(a)
+}
