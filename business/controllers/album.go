@@ -25,7 +25,6 @@ type AlbumController struct {
 }
 
 // Get handles the GET: /{id:int} route.
-func (c *AlbumController) GetBy(id int) (album *models.Album, e error) {
-	c.Runtime.Logger().Infof("我是 Album 控制器")
+func (c *AlbumController) GetBy(id int) (models.Album, error) {
 	return c.Sev.GetAlbum(id)
 }

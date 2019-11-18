@@ -4,7 +4,7 @@ import "github.com/8treenet/freedom"
 
 // Artist .
 type Artist struct {
-	ArtistId int `gorm:"primary_key"`
+	ArtistID int `gorm:"primary_key"`
 	Name     string
 }
 

@@ -28,6 +28,6 @@ type AlbumService struct {
 }
 
 // GetAlbum .
-func (s *AlbumService) GetAlbum(id int) (*models.Album, error) {
+func (s *AlbumService) GetAlbum(id int) (models.Album, error) {
 	return s.DefRepo.GetAlbum(id)
 }
