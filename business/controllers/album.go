@@ -24,7 +24,19 @@ type AlbumController struct {
 	Runtime freedom.Runtime
 }
 
-// Get handles the GET: /{id:int} route.
+// GetBy handles the GET: /{id:int} route.
 func (c *AlbumController) GetBy(id int) (models.Album, error) {
 	return c.Sev.GetAlbum(id)
+}
+
+// Get .
+func (c *AlbumController) Get() ([]models.Album, error) {
+	ctx := c.Runtime.Ctx()
+	page := ctx.URLParamIntDefault("page", 1)
+	perPage := ctx.URLParamIntDefault("per_page", 10)
+	filter := &models.Album{
+		ArtistID: ctx.URLParamIntDefault("artist_id", 0),
+		Title:    ctx.URLParamDefault("title", ""),
+	}
+	return c.Sev.GetAlbums(page, perPage, filter)
 }

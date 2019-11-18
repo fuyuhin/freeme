@@ -31,3 +31,7 @@ type AlbumService struct {
 func (s *AlbumService) GetAlbum(id int) (models.Album, error) {
 	return s.DefRepo.GetAlbum(id)
 }
+
+func (s *AlbumService) GetAlbums(page, perPage int, filter *models.Album) ([]models.Album, error) {
+	return s.DefRepo.GetAlbums(page, perPage, filter)
+}

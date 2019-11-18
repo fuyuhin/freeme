@@ -25,3 +25,7 @@ type AlbumRepository struct {
 func (repo *AlbumRepository) GetAlbum(id int) (models.Album, error) {
 	return models.FindAlbumByPrimary(repo, id)
 }
+func (repo *AlbumRepository) GetAlbums(page, perPage int, filter *models.Album) ([]models.Album, error) {
+	builder := repo.NewDescOrder("AlbumId").SetPager(page, perPage)
+	return models.FindAlbums(repo, filter, builder)
+}
