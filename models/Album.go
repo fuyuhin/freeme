@@ -82,13 +82,11 @@ func FindAlbumsByWhere(rep freedom.GORMRepository, query string, args []interfac
 }
 
 // CreateAlbum .
-func CreateAlbum(rep freedom.GORMRepository, entity *Album) (*Album, error) {
+func CreateAlbum(rep freedom.GORMRepository, entity *Album) (rowsAffected int64, e error) {
 	db := rep.DB().Create(entity)
-	// rowsAffected = db.RowsAffected
-	if db.Error != nil {
-		return nil, db.Error
-	}
-	return entity, nil
+	rowsAffected = db.RowsAffected
+	e = db.Error
+	return
 }
 
 // UpdateAlbum .

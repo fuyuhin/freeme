@@ -33,6 +33,22 @@ func (repo *AlbumRepository) GetAlbums(page, perPage int, filter *models.Album) 
 }
 
 // Create .
-func (repo *AlbumRepository) Create(album *models.Album) (*models.Album, error) {
-	return models.CreateAlbum(repo, album)
+// func (repo *AlbumRepository) Create(album *models.Album) (*models.Album, error) {
+func (repo *AlbumRepository) Create(album *models.Album) error {
+	// affectedRows, err := models.CreateAlbum(repo, album)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// if affectedRows != 0 {
+	// 	return nil, models.Err_CreateEntityRowsAffected
+	// }
+	// return album, nil
+	affectedRows, err := models.CreateAlbum(repo, album)
+	if err != nil {
+		return err
+	}
+	if affectedRows != 1 {
+		return models.Err_CreateEntityRowsAffected
+	}
+	return nil
 }
