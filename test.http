@@ -12,3 +12,13 @@ POST http://localhost:8000/albums HTTP/1.1
     "title": ""
     # "artist_id": 0
 }
+###
+DELETE  http://localhost:8000/albums/1008
+
+###
+PUT  http://localhost:8000/albums/1008
+
+{
+    "title": "fuyuhin",
+    "artist_id": 23143
+}

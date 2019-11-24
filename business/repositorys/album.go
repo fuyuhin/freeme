@@ -48,7 +48,29 @@ func (repo *AlbumRepository) Create(album *models.Album) error {
 		return err
 	}
 	if affectedRows != 1 {
-		return models.Err_CreateEntityRowsAffected
+		return models.ErrRowsAffected
+	}
+	return nil
+}
+
+func (repo *AlbumRepository) Update(id int, album models.Album) error {
+	affectedRows, err := models.UpdateAlbum(repo, &models.Album{AlbumID: id}, album)
+	if err != nil {
+		return err
+	}
+	if affectedRows != 1 {
+		return models.ErrRowsAffected
+	}
+	return nil
+}
+
+func (repo *AlbumRepository) Delete(id int) error {
+	affectedRows, err := models.DeleteAlbum(repo, &models.Album{AlbumID: id})
+	if err != nil {
+		return err
+	}
+	if affectedRows != 1 {
+		return models.ErrRowsAffected
 	}
 	return nil
 }

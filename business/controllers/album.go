@@ -3,9 +3,11 @@ package controllers
 import (
 	"freeme/business/services"
 	"freeme/models"
+	"net/http"
 
 	"github.com/8treenet/freedom"
 	"github.com/kataras/iris"
+	"github.com/kataras/iris/mvc"
 )
 
 func init() {
@@ -60,12 +62,23 @@ func (c *AlbumController) Post() (*models.Album, error) {
 	return a, nil
 }
 
-// // PutBy handles the PUT: /{id:int} route.
-// func (c *AlbumController) PutBy(id int) (models.Album, error) {
-// 	return c.Sev.GetAlbum(id)
-// }
+// PutBy handles the PUT: /{id:int} route.
+func (c *AlbumController) PutBy(id int) (mvc.Result, error) {
+	a := models.Album{}
+	if err := c.Runtime.Ctx().ReadJSON(&a); err != nil {
+		return nil, err
+	}
+	if err := c.Sev.Update(id, a); err != nil {
+		return nil, err
+	}
+	return mvc.Response{Code: http.StatusNoContent}, nil
+}
 
-// // DeleteBy handles the PUT: /{id:int} route.
-// func (c *AlbumController) DeleteBy(id int) (models.Album, error) {
-// 	return c.Sev.GetAlbum(id)
-// }
+// DeleteBy handles the PUT: /{id:int} route.
+func (c *AlbumController) DeleteBy(id int) (mvc.Result, error) {
+	err := c.Sev.Delete(id)
+	if err != nil {
+		return nil, err
+	}
+	return mvc.Response{Code: http.StatusNoContent}, nil
+}

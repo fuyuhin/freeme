@@ -97,6 +97,14 @@ func UpdateAlbum(rep freedom.GORMRepository, entity *Album, value Album) (affect
 	return
 }
 
+// DeleteAlbum .
+func DeleteAlbum(rep freedom.GORMRepository, entity *Album) (rowsAffected int64, e error) {
+	db := rep.DB().Delete(entity)
+	rowsAffected = db.RowsAffected
+	e = db.Error
+	return
+}
+
 // FindToUpdateAlbums .
 func FindToUpdateAlbums(rep freedom.GORMRepository, query *Album, value Album, builders ...freedom.QueryBuilder) (affected int64, e error) {
 	db := rep.DB()
