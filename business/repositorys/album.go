@@ -4,6 +4,7 @@ import (
 	"freeme/models"
 
 	"github.com/8treenet/freedom"
+	"github.com/jinzhu/gorm"
 )
 
 func init() {
@@ -22,8 +23,15 @@ type AlbumRepository struct {
 }
 
 // GetAlbum .
-func (repo *AlbumRepository) GetAlbum(id int) (models.Album, error) {
-	return models.FindAlbumByPrimary(repo, id)
+func (repo *AlbumRepository) GetAlbum(id int) (*models.Album, error) {
+	album, err := models.FindAlbumByPrimary(repo, id)
+	if err == gorm.ErrRecordNotFound {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &album, nil
 }
 
 // GetAlbums .
@@ -40,20 +48,25 @@ func (repo *AlbumRepository) Create(album *models.Album) error {
 		return err
 	}
 	if affectedRows != 1 {
-		return models.ErrRowsAffected
+		return models.ErrCreateAlbumRowAffected
 	}
 	return nil
 }
 
-func (repo *AlbumRepository) Update(id int, album models.Album) error {
-	affectedRows, err := models.UpdateAlbum(repo, &models.Album{AlbumID: id}, album)
+func (repo *AlbumRepository) Update(id int, a models.Album) (err error) {
+	a.AlbumID = id
+	affectedRows, err := models.UpdateAlbum(repo, &a, a)
 	if err != nil {
 		return err
 	}
-	if affectedRows != 1 {
-		return models.ErrRowsAffected
+	switch affectedRows {
+	case 1:
+		return nil
+	case 0:
+		return models.ErrUpdateAlbumNoAffected
+	default:
+		return models.ErrUpdateAlbumRowAffected
 	}
-	return nil
 }
 
 func (repo *AlbumRepository) Delete(id int) error {
@@ -61,32 +74,12 @@ func (repo *AlbumRepository) Delete(id int) error {
 	if err != nil {
 		return err
 	}
-	if affectedRows != 1 {
-		return models.ErrRowsAffected
+	switch affectedRows {
+	case 1:
+		return nil
+	case 0:
+		return models.ErrDeleteAlbumNoAffected
+	default:
+		return models.ErrDeleteAlbumRowAffected
 	}
-	return nil
-}
-
-// GetAlbum .
-func (repo *AlbumRepository) Delete(id int) (alreadyDeleted bool, err error) {
-	affectedRows, err := models.DeleteAlbumByPrimary(repo, id)
-	if err != nil {
-		return true, err
-	}
-	if affectedRows == 1 {
-		return false, nil
-	}
-	return true, nil
-}
-
-func (repo *AlbumRepository) Update(id int, a models.Album) (updated bool, err error) {
-	a.AlbumID = id
-	affectedRows, err := models.UpdateAlbum(repo, &a, a)
-	if err != nil {
-		return false, err
-	}
-	if affectedRows == 1 {
-		return true, nil
-	}
-	return false, nil
 }

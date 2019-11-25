@@ -28,8 +28,15 @@ type AlbumController struct {
 }
 
 // GetBy handles the GET: /{id:int} route.
-func (c *AlbumController) GetBy(id int) (models.Album, error) {
-	return c.Sev.GetAlbum(id)
+func (c *AlbumController) GetBy(id int) (mvc.Result, error) {
+	a, err := c.Sev.GetAlbum(id)
+	if err != nil {
+		return nil, err
+	}
+	if a == nil {
+		return mvc.Response{Code: http.StatusNotFound}, nil
+	}
+	return mvc.Response{Object: a}, nil
 }
 
 // Get .
@@ -71,6 +78,9 @@ func (c *AlbumController) PutBy(id int) (mvc.Result, error) {
 		return nil, err
 	}
 	if err := c.Sev.Update(id, a); err != nil {
+		if err == models.ErrUpdateAlbumNoAffected {
+			return mvc.Response{Code: http.StatusNotFound}, nil
+		}
 		return nil, err
 	}
 	return mvc.Response{Code: http.StatusNoContent}, nil
@@ -79,6 +89,9 @@ func (c *AlbumController) PutBy(id int) (mvc.Result, error) {
 // DeleteBy handles the PUT: /{id:int} route.
 func (c *AlbumController) DeleteBy(id int) (mvc.Result, error) {
 	if err := c.Sev.Delete(id); err != nil {
+		if err == models.ErrDeleteAlbumNoAffected {
+			return mvc.Response{Code: http.StatusNotFound}, nil
+		}
 		return nil, err
 	}
 	return mvc.Response{Code: http.StatusNoContent}, nil

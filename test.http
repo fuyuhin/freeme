@@ -3,7 +3,7 @@ http://localhost:8000/albums
 ###
 GET http://localhost:8000/albums?page=2&per_page=3&artist_id=22
 ###
-GET http://localhost:8000/albums/133 HTTP/1.1
+GET http://localhost:8000/albums/1008 HTTP/1.1
 ###
 POST http://localhost:8000/albums HTTP/1.1
 # header name: header value
@@ -13,13 +13,12 @@ POST http://localhost:8000/albums HTTP/1.1
     # "artist_id": 0
 }
 ###
-DELETE  http://localhost:8000/albums/1008
+DELETE  http://localhost:8000/albums/1015
 
 ###
-PUT  http://localhost:8000/albums/1008
+PUT  http://localhost:8000/albums/1014
 
 {
     "title": "fuyuhin",
     "artist_id": 23143
 }
-DELETE http://localhost:8000/albums/1027 HTTP/1.1
