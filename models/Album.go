@@ -3,21 +3,13 @@ package models
 import "github.com/8treenet/freedom"
 
 // Album .
-//type Album struct {
-//	AlbumId  int `gorm:"primary_key"`
-//	Title    string
-//	ArtistId int
-//}
-//Album test
 type Album struct {
 	AlbumID  int    `gorm:"column:AlbumId;primary_key" json:"id"`
 	Title    string `gorm:"column:Title" json:"title"`
 	ArtistID int    `gorm:"column:ArtistId" json:"artist_id"`
 }
 
-//TableName
 func (m *Album) TableName() string {
-	//return "Album"
 	return "Albums"
 }
 
@@ -35,49 +27,61 @@ func FindAlbumsByPrimarys(rep freedom.GORMRepository, primarys ...interface{}) (
 
 // FindAlbum .
 func FindAlbum(rep freedom.GORMRepository, query *Album, builders ...freedom.QueryBuilder) (result Album, e error) {
+	db := rep.DB()
+	if query != nil {
+		db = db.Where(query)
+	}
 	if len(builders) == 0 {
-		e = rep.DB().Where(query).Last(&result).Error
+		e = db.Last(&result).Error
 		return
 	}
 
-	e = rep.DB().Where(query).Limit(1).Order(builders[0].Order()).Find(&result).Error
+	e = db.Limit(1).Order(builders[0].Order()).Find(&result).Error
 	return
 }
 
 // FindAlbumByWhere .
 func FindAlbumByWhere(rep freedom.GORMRepository, query string, args []interface{}, builders ...freedom.QueryBuilder) (result Album, e error) {
+	db := rep.DB()
+	if query != "" {
+		db = db.Where(query, args...)
+	}
 	if len(builders) == 0 {
-		e = rep.DB().Where(query, args...).Last(&result).Error
+		e = db.Last(&result).Error
 		return
 	}
 
-	e = rep.DB().Where(query, args...).Limit(1).Order(builders[0].Order()).Find(&result).Error
+	e = db.Limit(1).Order(builders[0].Order()).Find(&result).Error
 	return
 }
 
 // FindAlbums .
 func FindAlbums(rep freedom.GORMRepository, query *Album, builders ...freedom.QueryBuilder) (results []Album, e error) {
 	db := rep.DB()
-	if len(builders) == 0 {
-		e = db.Where(query).Find(&results).Error
-		return
+	if query != nil {
+		db = db.Where(query)
 	}
 
-	where := db.Where(query)
-	e = builders[0].Execute(where, &results)
+	if len(builders) == 0 {
+		e = db.Find(&results).Error
+		return
+	}
+	e = builders[0].Execute(db, &results)
 	return
 }
 
 // FindAlbumsByWhere .
 func FindAlbumsByWhere(rep freedom.GORMRepository, query string, args []interface{}, builders ...freedom.QueryBuilder) (results []Album, e error) {
 	db := rep.DB()
-	if len(builders) == 0 {
-		e = db.Where(query, args...).Find(&results).Error
-		return
+	if query != "" {
+		db = db.Where(query, args...)
 	}
 
-	where := db.Where(query, args...)
-	e = builders[0].Execute(where, &results)
+	if len(builders) == 0 {
+		e = db.Find(&results).Error
+		return
+	}
+	e = builders[0].Execute(db, &results)
 	return
 }
 

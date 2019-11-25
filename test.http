@@ -13,10 +13,10 @@ POST http://localhost:8000/albums HTTP/1.1
 }
 
 ###
-GET http://localhost:8000/albums/1017 HTTP/1.1
+GET http://localhost:8000/albums/1019 HTTP/1.1
 
 ###
-PUT  http://localhost:8000/albums/1017
+PUT  http://localhost:8000/albums/1019
 
 {
     "title": "fuyuhin",
@@ -24,4 +24,4 @@ PUT  http://localhost:8000/albums/1017
 }
 
 ###
-DELETE  http://localhost:8000/albums/1017
+DELETE  http://localhost:8000/albums/1019
