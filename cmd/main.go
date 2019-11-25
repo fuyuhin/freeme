@@ -22,7 +22,7 @@ func main() {
 	app := freedom.NewApplication()
 	app.InstallGorm(gormInit)
 	app.InstallMiddleware(middleware.NewTrace("TRACE-ID"))
-	app.InstallMiddleware(middleware.NewLogger("TRACE-ID"))
+	app.InstallMiddleware(middleware.NewLogger("TRACE-ID", true))
 	app.InstallMiddleware(middleware.NewRuntimeLogger("TRACE-ID"))
 	app.Run(iris.Addr(config.Get().App.Other["listen_addr"].(string)), *config.Get().App)
 }

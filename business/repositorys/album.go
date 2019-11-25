@@ -10,7 +10,6 @@ import (
 func init() {
 	freedom.Booting(func(initiator freedom.Initiator) {
 		initiator.BindRepository(func() *AlbumRepository {
-			println("initiator.BindRepository AlbumRepository")
 			return &AlbumRepository{}
 		})
 	})
@@ -36,7 +35,7 @@ func (repo *AlbumRepository) GetAlbum(id int) (*models.Album, error) {
 
 // GetAlbums .
 func (repo *AlbumRepository) GetAlbums(page, perPage int, filter *models.Album) ([]models.Album, error) {
-	builder := repo.NewDescOrder("AlbumId").SetPager(page, perPage)
+	builder := repo.NewDescOrder("AlbumId").NewPager(page, perPage)
 	return models.FindAlbums(repo, filter, builder)
 }
 
