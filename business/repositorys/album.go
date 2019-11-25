@@ -35,14 +35,6 @@ func (repo *AlbumRepository) GetAlbums(page, perPage int, filter *models.Album) 
 // Create .
 // func (repo *AlbumRepository) Create(album *models.Album) (*models.Album, error) {
 func (repo *AlbumRepository) Create(album *models.Album) error {
-	// affectedRows, err := models.CreateAlbum(repo, album)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// if affectedRows != 0 {
-	// 	return nil, models.Err_CreateEntityRowsAffected
-	// }
-	// return album, nil
 	affectedRows, err := models.CreateAlbum(repo, album)
 	if err != nil {
 		return err
@@ -73,4 +65,28 @@ func (repo *AlbumRepository) Delete(id int) error {
 		return models.ErrRowsAffected
 	}
 	return nil
+}
+
+// GetAlbum .
+func (repo *AlbumRepository) Delete(id int) (alreadyDeleted bool, err error) {
+	affectedRows, err := models.DeleteAlbumByPrimary(repo, id)
+	if err != nil {
+		return true, err
+	}
+	if affectedRows == 1 {
+		return false, nil
+	}
+	return true, nil
+}
+
+func (repo *AlbumRepository) Update(id int, a models.Album) (updated bool, err error) {
+	a.AlbumID = id
+	affectedRows, err := models.UpdateAlbum(repo, &a, a)
+	if err != nil {
+		return false, err
+	}
+	if affectedRows == 1 {
+		return true, nil
+	}
+	return false, nil
 }

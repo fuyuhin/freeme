@@ -22,3 +22,4 @@ PUT  http://localhost:8000/albums/1008
     "title": "fuyuhin",
     "artist_id": 23143
 }
+DELETE http://localhost:8000/albums/1027 HTTP/1.1

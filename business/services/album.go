@@ -69,3 +69,12 @@ func (s *AlbumService) Delete(id int) error {
 	// return s.DefRepo.Delete(id)
 	return s.AlbumRepoInterface.Delete(id)
 }
+
+// GetAlbum .
+func (s *AlbumService) Delete(id int) error {
+	return s.DefRepo.Delete(id)
+}
+
+func (s *AlbumService) Update(id int, a models.Album) error {
+	return s.DefRepo.Update(id, a)
+}

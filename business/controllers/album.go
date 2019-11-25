@@ -4,6 +4,7 @@ import (
 	"freeme/business/services"
 	"freeme/models"
 	"net/http"
+	"strconv"
 
 	"github.com/8treenet/freedom"
 	"github.com/kataras/iris"
@@ -51,7 +52,7 @@ func (c *AlbumController) Get() ([]models.Album, error) {
 // 	return c.Sev.Create(requestBody)
 // }
 
-func (c *AlbumController) Post() (*models.Album, error) {
+func (c *AlbumController) Post() (mvc.Result, error) {
 	a := &models.Album{}
 	if err := c.Runtime.Ctx().ReadJSON(a); err != nil {
 		return nil, err
@@ -59,7 +60,8 @@ func (c *AlbumController) Post() (*models.Album, error) {
 	if err := c.Sev.Create(a); err != nil {
 		return nil, err
 	}
-	return a, nil
+	c.Runtime.Ctx().Header("Link", "/albums/"+strconv.Itoa(a.AlbumID))
+	return mvc.Response{Code: http.StatusCreated}, nil
 }
 
 // PutBy handles the PUT: /{id:int} route.
@@ -76,8 +78,7 @@ func (c *AlbumController) PutBy(id int) (mvc.Result, error) {
 
 // DeleteBy handles the PUT: /{id:int} route.
 func (c *AlbumController) DeleteBy(id int) (mvc.Result, error) {
-	err := c.Sev.Delete(id)
-	if err != nil {
+	if err := c.Sev.Delete(id); err != nil {
 		return nil, err
 	}
 	return mvc.Response{Code: http.StatusNoContent}, nil
