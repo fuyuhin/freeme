@@ -3,7 +3,7 @@ module freeme
 go 1.12
 
 require (
-	github.com/8treenet/freedom v1.1.2
+	github.com/8treenet/freedom v1.1.6
 	github.com/8treenet/gcache v1.1.3
 	github.com/Joker/jade v1.0.1-0.20190614124447-d475f43051e7 // indirect
 	github.com/ajg/form v1.5.1 // indirect
@@ -21,7 +21,7 @@ require (
 	github.com/klauspost/compress v1.9.2 // indirect
 	github.com/mattn/go-colorable v0.1.4 // indirect
 	github.com/moul/http2curl v1.0.0 // indirect
-	github.com/prometheus/procfs v0.0.7 // indirect
+	github.com/prometheus/procfs v0.0.8 // indirect
 	github.com/sergi/go-diff v1.0.0 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190731233626-505e41936337 // indirect
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
